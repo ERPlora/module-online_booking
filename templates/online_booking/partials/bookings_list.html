@@ -1,0 +1,228 @@
+{% load djicons i18n %}
+
+{% if bookings %}
+
+<!-- Table View -->
+<div class="datatable-body">
+    <table class="datatable-table">
+        <thead class="datatable-thead">
+            <tr>
+                <th class="datatable-th datatable-th-checkbox">
+                    <label class="checkbox checkbox-sm">
+                        <input type="checkbox"
+                               :checked="selectAll"
+                               @click="toggleAll([{% for b in bookings %}'{{ b.id }}'{% if not forloop.last %},{% endif %}{% endfor %}])">
+                        <span class="checkbox-mark"></span>
+                    </label>
+                </th>
+                <th class="datatable-th datatable-th-sortable{% if sort_field == 'reference' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                    hx-get="{% url 'online_booking:bookings' %}?sort=reference&dir={% if sort_field == 'reference' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
+                    hx-target="#datatable-body"
+                    hx-include="#bookings-datatable"
+                    style="cursor: pointer;">
+                    {% trans "Reference" %}
+                    <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
+                </th>
+                <th class="datatable-th datatable-th-sortable{% if sort_field == 'customer' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                    hx-get="{% url 'online_booking:bookings' %}?sort=customer&dir={% if sort_field == 'customer' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
+                    hx-target="#datatable-body"
+                    hx-include="#bookings-datatable"
+                    style="cursor: pointer;">
+                    {% trans "Customer" %}
+                    <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
+                </th>
+                <th class="datatable-th datatable-th-sortable{% if sort_field == 'service' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                    hx-get="{% url 'online_booking:bookings' %}?sort=service&dir={% if sort_field == 'service' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
+                    hx-target="#datatable-body"
+                    hx-include="#bookings-datatable"
+                    style="cursor: pointer;">
+                    {% trans "Service" %}
+                    <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
+                </th>
+                <th class="datatable-th" data-col="staff">{% trans "Staff" %}</th>
+                <th class="datatable-th datatable-th-sortable{% if sort_field == 'date' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                    hx-get="{% url 'online_booking:bookings' %}?sort=date&dir={% if sort_field == 'date' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
+                    hx-target="#datatable-body"
+                    hx-include="#bookings-datatable"
+                    style="cursor: pointer;">
+                    {% trans "Date" %}
+                    <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
+                </th>
+                <th class="datatable-th">{% trans "Time" %}</th>
+                <th class="datatable-th datatable-th-center datatable-th-sortable{% if sort_field == 'status' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                    hx-get="{% url 'online_booking:bookings' %}?sort=status&dir={% if sort_field == 'status' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
+                    hx-target="#datatable-body"
+                    hx-include="#bookings-datatable"
+                    style="cursor: pointer;">
+                    {% trans "Status" %}
+                    <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
+                </th>
+                <th class="datatable-th datatable-th-actions">{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody class="datatable-tbody">
+            {% for booking in bookings %}
+            <tr class="datatable-tr"
+                data-id="{{ booking.id }}"
+                :class="{ 'datatable-tr-selected': selectedIds.includes('{{ booking.id }}') }">
+                <td class="datatable-td datatable-td-checkbox" onclick="event.stopPropagation();">
+                    <label class="checkbox checkbox-sm">
+                        <input type="checkbox"
+                               :checked="selectedIds.includes('{{ booking.id }}')"
+                               @click="toggleSelect('{{ booking.id }}')">
+                        <span class="checkbox-mark"></span>
+                    </label>
+                </td>
+                <td class="datatable-td" data-label="{% trans 'Reference' %}">
+                    <span class="font-medium font-mono text-sm">{{ booking.booking_reference }}</span>
+                </td>
+                <td class="datatable-td" data-label="{% trans 'Customer' %}">
+                    <div>
+                        <span class="font-medium">{{ booking.customer_name }}</span>
+                        {% if booking.customer_email %}
+                        <div class="text-xs text-base-content/60">{{ booking.customer_email }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="datatable-td" data-label="{% trans 'Service' %}">
+                    <span class="text-base-content/80">{{ booking.service_name }}</span>
+                </td>
+                <td class="datatable-td" data-col="staff" data-label="{% trans 'Staff' %}">
+                    <span class="text-base-content/60">{{ booking.staff_name|default:"-" }}</span>
+                </td>
+                <td class="datatable-td" data-label="{% trans 'Date' %}">
+                    <span class="font-medium">{{ booking.booking_date|date:"M d, Y" }}</span>
+                </td>
+                <td class="datatable-td" data-label="{% trans 'Time' %}">
+                    <span class="text-base-content/80">{{ booking.booking_time|time:"H:i" }}</span>
+                    <span class="text-xs text-base-content/40">({{ booking.duration_minutes }}min)</span>
+                </td>
+                <td class="datatable-td datatable-td-center" data-label="{% trans 'Status' %}">
+                    <span class="badge badge-sm {% if booking.status == 'pending' %}color-warning{% elif booking.status == 'confirmed' %}color-success{% elif booking.status == 'cancelled' %}color-error{% elif booking.status == 'completed' %}color-primary{% elif booking.status == 'no_show' %}color-error{% endif %}">
+                        {{ booking.get_status_display }}
+                    </span>
+                </td>
+                <td class="datatable-td datatable-td-actions" onclick="event.stopPropagation();">
+                    <div class="datatable-row-actions">
+                        {% if booking.status == 'pending' %}
+                        <button class="datatable-row-action"
+                                hx-post="{% url 'online_booking:confirm' booking.id %}"
+                                hx-target="#datatable-body"
+                                hx-include="#bookings-datatable"
+                                title="{% trans 'Confirm' %}">
+                            {% icon "checkmark-circle-outline" css_class="text-success" %}
+                        </button>
+                        {% endif %}
+                        {% if booking.status == 'confirmed' %}
+                        <button class="datatable-row-action"
+                                hx-post="{% url 'online_booking:complete' booking.id %}"
+                                hx-target="#datatable-body"
+                                hx-include="#bookings-datatable"
+                                title="{% trans 'Complete' %}">
+                            {% icon "checkmark-done-outline" css_class="text-primary" %}
+                        </button>
+                        <button class="datatable-row-action"
+                                hx-post="{% url 'online_booking:no_show' booking.id %}"
+                                hx-target="#datatable-body"
+                                hx-include="#bookings-datatable"
+                                title="{% trans 'No Show' %}">
+                            {% icon "person-remove-outline" css_class="text-warning" %}
+                        </button>
+                        {% endif %}
+                        {% if booking.status != 'cancelled' and booking.status != 'completed' %}
+                        <button class="datatable-row-action"
+                                @click="cancelTarget = { id: '{{ booking.id }}', ref: '{{ booking.booking_reference }}', url: '{% url 'online_booking:cancel' booking.id %}' }; cancelModal = true"
+                                title="{% trans 'Cancel' %}">
+                            {% icon "close-circle-outline" css_class="text-error" %}
+                        </button>
+                        {% endif %}
+                        <button class="datatable-row-action datatable-row-action-danger"
+                                @click="deleteTarget = { id: '{{ booking.id }}', ref: '{{ booking.booking_reference }}', url: '{% url 'online_booking:delete' booking.id %}' }; deleteConfirm = true"
+                                title="{% trans 'Delete' %}">
+                            {% icon "trash-outline" %}
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer / Pagination -->
+<div class="datatable-footer">
+    <div class="datatable-per-page">
+        {% trans "Show" %}
+        <select name="per_page"
+                hx-get="{% url 'online_booking:bookings' %}"
+                hx-target="#datatable-body"
+                hx-include="#bookings-datatable"
+                hx-trigger="change">
+            <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+            <option value="25" {% if per_page == 25 %}selected{% endif %}>25</option>
+            <option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+            <option value="100" {% if per_page == 100 %}selected{% endif %}>100</option>
+        </select>
+        {% trans "per page" %}
+    </div>
+    <span class="datatable-info">
+        {% if page_obj.paginator.count > 0 %}
+        {% blocktrans with start=page_obj.start_index end=page_obj.end_index total=page_obj.paginator.count %}Showing {{ start }}-{{ end }} of {{ total }} bookings{% endblocktrans %}
+        {% endif %}
+    </span>
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="pagination pagination-sm">
+        <button class="pagination-btn pagination-prev"
+                {% if page_obj.has_previous %}
+                hx-get="{% url 'online_booking:bookings' %}?page={{ page_obj.previous_page_number }}"
+                hx-target="#datatable-body"
+                hx-include="#bookings-datatable"
+                {% else %}disabled{% endif %}>
+            {% icon "chevron-back-outline" %}
+        </button>
+        {% for num in page_obj.paginator.page_range %}
+        <button class="pagination-btn{% if num == page_obj.number %} pagination-active{% endif %}"
+                hx-get="{% url 'online_booking:bookings' %}?page={{ num }}"
+                hx-target="#datatable-body"
+                hx-include="#bookings-datatable">
+            {{ num }}
+        </button>
+        {% endfor %}
+        <button class="pagination-btn pagination-next"
+                {% if page_obj.has_next %}
+                hx-get="{% url 'online_booking:bookings' %}?page={{ page_obj.next_page_number }}"
+                hx-target="#datatable-body"
+                hx-include="#bookings-datatable"
+                {% else %}disabled{% endif %}>
+            {% icon "chevron-forward-outline" %}
+        </button>
+    </nav>
+    {% endif %}
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="datatable-empty">
+    <div class="datatable-empty-icon">
+        {% if search_query or status_filter or date_from or date_to %}
+        {% icon "search-outline" %}
+        {% else %}
+        {% icon "calendar-outline" %}
+        {% endif %}
+    </div>
+    <div class="datatable-empty-title">
+        {% if search_query or status_filter or date_from or date_to %}
+        {% trans "No bookings found" %}
+        {% else %}
+        {% trans "No bookings yet" %}
+        {% endif %}
+    </div>
+    <div class="datatable-empty-text">
+        {% if search_query or status_filter or date_from or date_to %}
+        {% trans "Try a different search term or filter" %}
+        {% else %}
+        {% trans "Online bookings will appear here when customers book appointments through your booking page" %}
+        {% endif %}
+    </div>
+</div>
+{% endif %}

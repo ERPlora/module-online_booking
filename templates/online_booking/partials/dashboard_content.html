@@ -1,0 +1,216 @@
+{% load djicons i18n %}
+
+<div class="p-4">
+    <!-- Booking Page Status -->
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    {% if settings.is_enabled %}
+                    <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                        {% icon "globe-outline" css_class="text-xl text-success" %}
+                    </div>
+                    <div>
+                        <div class="font-medium">{% trans "Booking Page is Live" %}</div>
+                        <div class="text-sm text-base-content/60">{% trans "Customers can book appointments online" %}</div>
+                    </div>
+                    {% else %}
+                    <div class="w-10 h-10 bg-base-200/50 rounded-xl flex items-center justify-center">
+                        {% icon "globe-outline" css_class="text-xl text-base-content/40" %}
+                    </div>
+                    <div>
+                        <div class="font-medium">{% trans "Booking Page is Disabled" %}</div>
+                        <div class="text-sm text-base-content/60">{% trans "Enable it in Settings to start receiving bookings" %}</div>
+                    </div>
+                    {% endif %}
+                </div>
+                <a hx-get="{% url 'online_booking:settings' %}"
+                   hx-target="#main-content-area"
+                   hx-push-url="true"
+                   class="btn btn-sm {% if settings.is_enabled %}color-success{% else %}color-primary{% endif %}">
+                    {% icon "settings-outline" %}
+                    {% trans "Settings" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-warning/10 rounded-xl flex items-center justify-center">
+                        {% icon "hourglass-outline" css_class="text-2xl text-warning" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "Pending" %}</div>
+                        <div class="text-2xl font-bold">{{ pending_count }}</div>
+                        <div class="text-xs text-base-content/60">{% trans "awaiting confirmation" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center">
+                        {% icon "checkmark-circle-outline" css_class="text-2xl text-success" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "Confirmed Today" %}</div>
+                        <div class="text-2xl font-bold text-success">{{ confirmed_today }}</div>
+                        <div class="text-xs text-base-content/60">{% trans "appointments" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        {% icon "calendar-outline" css_class="text-2xl text-primary" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "This Week" %}</div>
+                        <div class="text-2xl font-bold">{{ total_this_week }}</div>
+                        <div class="text-xs text-base-content/60">{% trans "total bookings" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 {% if no_show_rate > 10 %}bg-error/10{% else %}bg-base-200/50{% endif %} rounded-xl flex items-center justify-center">
+                        {% icon "alert-circle-outline" css_class="text-2xl {% if no_show_rate > 10 %}text-error{% else %}text-base-content/60{% endif %}" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "No-Show Rate" %}</div>
+                        <div class="text-2xl font-bold {% if no_show_rate > 10 %}text-error{% endif %}">{{ no_show_rate }}%</div>
+                        <div class="text-xs text-base-content/60">{{ no_show_count }} {% trans "total" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">{% trans "Quick Actions" %}</h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="list">
+                <a hx-get="{% url 'online_booking:bookings' %}"
+                   hx-target="#main-content-area"
+                   hx-push-url="true"
+                   class="list-item list-item-clickable">
+                    <div class="list-item-start">
+                        {% icon "list-outline" css_class="text-xl text-primary" %}
+                    </div>
+                    <div class="list-item-content">
+                        <div class="list-item-label">{% trans "View All Bookings" %}</div>
+                        <div class="list-item-note">{% trans "Browse and manage all online bookings" %}</div>
+                    </div>
+                    <div class="list-item-end">
+                        <span class="list-item-chevron"></span>
+                    </div>
+                </a>
+                <a hx-get="{% url 'online_booking:bookings' %}?status=pending"
+                   hx-target="#main-content-area"
+                   hx-push-url="true"
+                   class="list-item list-item-clickable">
+                    <div class="list-item-start">
+                        {% icon "hourglass-outline" css_class="text-xl text-warning" %}
+                    </div>
+                    <div class="list-item-content">
+                        <div class="list-item-label">{% trans "Review Pending Bookings" %}</div>
+                        <div class="list-item-note">{% trans "Confirm or reject pending appointment requests" %}</div>
+                    </div>
+                    <div class="list-item-end">
+                        {% if pending_count > 0 %}
+                        <span class="badge color-warning">{{ pending_count }}</span>
+                        {% endif %}
+                        <span class="list-item-chevron"></span>
+                    </div>
+                </a>
+                <a hx-get="{% url 'online_booking:settings' %}"
+                   hx-target="#main-content-area"
+                   hx-push-url="true"
+                   class="list-item list-item-clickable">
+                    <div class="list-item-start">
+                        {% icon "settings-outline" css_class="text-xl text-base-content/60" %}
+                    </div>
+                    <div class="list-item-content">
+                        <div class="list-item-label">{% trans "Configure Booking Page" %}</div>
+                        <div class="list-item-note">{% trans "Customize your public booking page settings" %}</div>
+                    </div>
+                    <div class="list-item-end">
+                        <span class="list-item-chevron"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Bookings -->
+    {% if upcoming_bookings %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">{% trans "Upcoming Bookings" %}</h3>
+            <span class="text-sm text-base-content/60">{% trans "Next 7 days" %}</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="list">
+                {% for booking in upcoming_bookings %}
+                <div class="list-item">
+                    <div class="list-item-start">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center {% if booking.status == 'confirmed' %}bg-success/10{% else %}bg-warning/10{% endif %}">
+                            {% if booking.status == 'confirmed' %}
+                                {% icon "checkmark-circle-outline" css_class="text-xl text-success" %}
+                            {% else %}
+                                {% icon "hourglass-outline" css_class="text-xl text-warning" %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="list-item-content">
+                        <div class="list-item-label">
+                            {{ booking.booking_reference }}
+                            <span class="text-base-content/60 font-normal">&middot; {{ booking.customer_name }}</span>
+                        </div>
+                        <div class="list-item-note">
+                            {{ booking.service_name }}
+                            {% if booking.staff_name %}&middot; {{ booking.staff_name }}{% endif %}
+                        </div>
+                    </div>
+                    <div class="list-item-end text-right">
+                        <div class="font-medium text-sm">{{ booking.booking_date|date:"M d" }}</div>
+                        <div class="text-xs text-base-content/60">{{ booking.booking_time|time:"H:i" }}</div>
+                        <span class="badge badge-sm {% if booking.status == 'confirmed' %}color-success{% else %}color-warning{% endif %}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card mb-4">
+        <div class="card-body text-center py-8">
+            <div class="text-base-content/40 mb-2">
+                {% icon "calendar-outline" css_class="text-4xl" %}
+            </div>
+            <p class="text-base-content/60 text-sm">{% trans "No upcoming bookings in the next 7 days." %}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="p-4 rounded-xl bg-primary/5 flex items-start gap-3">
+        {% icon "information-circle-outline" css_class="text-xl text-primary mt-0.5 shrink-0" %}
+        <p class="text-sm text-base-content/60">
+            {% trans "Manage online bookings from customers. Enable the booking page in Settings to allow customers to book appointments directly from your website. Pending bookings need manual confirmation." %}
+        </p>
+    </div>
+</div>

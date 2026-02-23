@@ -1,0 +1,61 @@
+/*
+ * Online Booking Module - Custom Styles
+ *
+ * Module-specific styles that extend the ux library.
+ * Most styling comes from ux CSS classes (card, badge, datatable, etc.).
+ * This file only contains overrides or module-specific additions.
+ */
+
+/* Booking reference monospace styling */
+.booking-ref {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+}
+
+/* Status badge colors for booking statuses */
+.booking-status-pending {
+    --badge-bg: var(--color-warning);
+    --badge-text: var(--color-warning-content);
+}
+
+.booking-status-confirmed {
+    --badge-bg: var(--color-success);
+    --badge-text: var(--color-success-content);
+}
+
+.booking-status-cancelled {
+    --badge-bg: var(--color-error);
+    --badge-text: var(--color-error-content);
+}
+
+.booking-status-completed {
+    --badge-bg: var(--color-primary);
+    --badge-text: var(--color-primary-content);
+}
+
+.booking-status-no_show {
+    --badge-bg: var(--color-error);
+    --badge-text: var(--color-error-content);
+}
+
+/* Color picker input styling */
+input[type="color"].input {
+    padding: 0.25rem;
+    height: 2.75rem;
+    cursor: pointer;
+}
+
+input[type="color"].input::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+input[type="color"].input::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--radius-field, 0.5rem);
+}
+
+/* Settings toggle list items alignment */
+.list-item .toggle {
+    flex-shrink: 0;
+}

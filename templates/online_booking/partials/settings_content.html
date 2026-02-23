@@ -1,0 +1,278 @@
+{% load djicons i18n %}
+
+<div class="p-4">
+    <!-- Overview Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 {% if settings.is_enabled %}bg-success/10{% else %}bg-base-200/50{% endif %} rounded-xl flex items-center justify-center">
+                        {% icon "globe-outline" css_class="text-2xl {% if settings.is_enabled %}text-success{% else %}text-base-content/40{% endif %}" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "Booking Page" %}</div>
+                        <div class="text-xl font-semibold {% if settings.is_enabled %}text-success{% endif %}">
+                            {% if settings.is_enabled %}{% trans "Enabled" %}{% else %}{% trans "Disabled" %}{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        {% icon "calendar-outline" css_class="text-2xl text-primary" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "Total Bookings" %}</div>
+                        <div class="text-xl font-semibold">{{ total_bookings }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-warning/10 rounded-xl flex items-center justify-center">
+                        {% icon "hourglass-outline" css_class="text-2xl text-warning" %}
+                    </div>
+                    <div>
+                        <div class="text-sm text-base-content/60">{% trans "Pending" %}</div>
+                        <div class="text-xl font-semibold">{{ pending_bookings }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form hx-post="{% url 'online_booking:settings' %}"
+          hx-target="#main-content-area"
+          hx-push-url="false">
+        {% csrf_token %}
+
+        <!-- Booking Page Status -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "power-outline" css_class="text-success" %} {% trans "Booking Page Status" %}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="list">
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-label">{% trans "Enable Booking Page" %}</div>
+                            <div class="list-item-note">{% trans "Allow customers to book appointments online" %}</div>
+                        </div>
+                        <div class="list-item-end">
+                            <label class="toggle color-success">
+                                <input type="checkbox" name="is_enabled" {% if form.instance.is_enabled %}checked{% endif %}>
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Page URL (placeholder) -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "link-outline" css_class="text-primary" %} {% trans "Booking Page URL" %}</h3>
+            </div>
+            <div class="card-body">
+                <div class="flex items-center gap-3">
+                    <div class="input flex-1 bg-base-200/30 text-base-content/50">
+                        https://book.erplora.com/your-hub-slug
+                    </div>
+                    <button type="button" class="btn btn-sm" disabled title="{% trans 'Coming soon' %}">
+                        {% icon "copy-outline" %}
+                        {% trans "Copy" %}
+                    </button>
+                </div>
+                <p class="text-xs text-base-content/50 mt-2">
+                    {% trans "The public booking page URL will be available once the feature is fully deployed." %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Page Customization -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "color-palette-outline" css_class="text-primary" %} {% trans "Page Customization" %}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="list">
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="form-group">
+                                <label class="form-group-label">{% trans "Page Title" %}</label>
+                                {{ form.page_title }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="form-group">
+                                <label class="form-group-label">{% trans "Welcome Message" %}</label>
+                                {{ form.welcome_message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Primary Color" %}</label>
+                                    {{ form.primary_color }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Logo URL" %}</label>
+                                    {{ form.logo_url }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Rules -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "options-outline" css_class="text-warning" %} {% trans "Booking Rules" %}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="list">
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Minimum Advance (hours)" %}</label>
+                                    {{ form.min_advance_hours }}
+                                    <p class="text-xs text-base-content/50 mt-1">{% trans "How far in advance customers must book" %}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Maximum Advance (days)" %}</label>
+                                    {{ form.max_advance_days }}
+                                    <p class="text-xs text-base-content/50 mt-1">{% trans "How far ahead customers can book" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Slot Duration (minutes)" %}</label>
+                                    {{ form.slot_duration_minutes }}
+                                    <p class="text-xs text-base-content/50 mt-1">{% trans "Default appointment time slot length" %}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-group-label">{% trans "Buffer Time (minutes)" %}</label>
+                                    {{ form.buffer_minutes }}
+                                    <p class="text-xs text-base-content/50 mt-1">{% trans "Gap between consecutive appointments" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Required Fields & Options -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "list-outline" css_class="text-primary" %} {% trans "Form Fields & Options" %}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="list">
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-label">{% trans "Require Phone Number" %}</div>
+                            <div class="list-item-note">{% trans "Phone field is mandatory in the booking form" %}</div>
+                        </div>
+                        <div class="list-item-end">
+                            <label class="toggle color-primary">
+                                <input type="checkbox" name="require_phone" {% if form.instance.require_phone %}checked{% endif %}>
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-label">{% trans "Require Email" %}</div>
+                            <div class="list-item-note">{% trans "Email field is mandatory in the booking form" %}</div>
+                        </div>
+                        <div class="list-item-end">
+                            <label class="toggle color-primary">
+                                <input type="checkbox" name="require_email" {% if form.instance.require_email %}checked{% endif %}>
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-label">{% trans "Allow Staff Selection" %}</div>
+                            <div class="list-item-note">{% trans "Let customers choose a preferred staff member" %}</div>
+                        </div>
+                        <div class="list-item-end">
+                            <label class="toggle color-primary">
+                                <input type="checkbox" name="allow_staff_selection" {% if form.instance.allow_staff_selection %}checked{% endif %}>
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-label">{% trans "Allow Notes" %}</div>
+                            <div class="list-item-note">{% trans "Let customers add notes or special requests" %}</div>
+                        </div>
+                        <div class="list-item-end">
+                            <label class="toggle color-primary">
+                                <input type="checkbox" name="allow_notes" {% if form.instance.allow_notes %}checked{% endif %}>
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">{% icon "chatbubble-outline" css_class="text-success" %} {% trans "Messages" %}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="list">
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="form-group">
+                                <label class="form-group-label">{% trans "Confirmation Message" %}</label>
+                                {{ form.confirmation_message }}
+                                <p class="text-xs text-base-content/50 mt-1">{% trans "Shown to customers after they submit a booking" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item list-item-multiline">
+                        <div class="list-item-content w-full">
+                            <div class="form-group">
+                                <label class="form-group-label">{% trans "Cancellation Policy" %}</label>
+                                {{ form.cancellation_policy }}
+                                <p class="text-xs text-base-content/50 mt-1">{% trans "Displayed to customers on the booking page" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="flex justify-end gap-3 mb-4">
+            <button type="submit" class="btn color-primary">
+                {% icon "save-outline" %}
+                {% trans "Save Settings" %}
+            </button>
+        </div>
+    </form>
+</div>
