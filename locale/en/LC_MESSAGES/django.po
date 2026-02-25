@@ -1,0 +1,413 @@
+# English translations for Online Booking
+# Copyright (C) 2025
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-25 00:00+0000\n"
+"PO-Revision-Date: 2026-02-25 00:00+0000\n"
+"Last-Translator: ERPlora Team <info@erplora.com>\n"
+"Language: en\n"
+"Language-Team: English\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: module.py
+msgid "Online Booking"
+msgstr "Online Booking"
+
+msgid "Public online appointment booking page for customers"
+msgstr "Public online appointment booking page for customers"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Bookings"
+msgstr "Bookings"
+
+msgid "Settings"
+msgstr "Settings"
+
+#: models.py - BookingPageSettings
+msgid "Book an Appointment"
+msgstr "Book an Appointment"
+
+msgid "Whether the public booking page is active"
+msgstr "Whether the public booking page is active"
+
+msgid "Title displayed on the booking page"
+msgstr "Title displayed on the booking page"
+
+msgid "Welcome message shown to customers"
+msgstr "Welcome message shown to customers"
+
+msgid "Primary accent color for the booking page"
+msgstr "Primary accent color for the booking page"
+
+msgid "URL to the logo displayed on the booking page"
+msgstr "URL to the logo displayed on the booking page"
+
+msgid "Require customer phone number"
+msgstr "Require customer phone number"
+
+msgid "Require customer email address"
+msgstr "Require customer email address"
+
+msgid "Allow customers to choose their preferred staff member"
+msgstr "Allow customers to choose their preferred staff member"
+
+msgid "Allow customers to add notes to their booking"
+msgstr "Allow customers to add notes to their booking"
+
+msgid "Minimum hours in advance a booking can be made"
+msgstr "Minimum hours in advance a booking can be made"
+
+msgid "Maximum days in advance a booking can be made"
+msgstr "Maximum days in advance a booking can be made"
+
+msgid "Default time slot duration in minutes"
+msgstr "Default time slot duration in minutes"
+
+msgid "Buffer time between appointments in minutes"
+msgstr "Buffer time between appointments in minutes"
+
+msgid "Your appointment has been booked successfully. We will confirm it shortly."
+msgstr "Your appointment has been booked successfully. We will confirm it shortly."
+
+msgid "Message shown after a booking is submitted"
+msgstr "Message shown after a booking is submitted"
+
+msgid "Cancellation policy text displayed to customers"
+msgstr "Cancellation policy text displayed to customers"
+
+msgid "Booking Page Settings"
+msgstr "Booking Page Settings"
+
+#: models.py - OnlineBooking Status
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Confirmed"
+msgstr "Confirmed"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "No Show"
+msgstr "No Show"
+
+#: models.py - OnlineBooking fields
+msgid "Auto-generated booking reference (e.g. BK-00001)"
+msgstr "Auto-generated booking reference (e.g. BK-00001)"
+
+msgid "Linked customer record (if found)"
+msgstr "Linked customer record (if found)"
+
+msgid "Customer name as entered in the booking form"
+msgstr "Customer name as entered in the booking form"
+
+msgid "Customer email"
+msgstr "Customer email"
+
+msgid "Customer phone number"
+msgstr "Customer phone number"
+
+msgid "UUID of the booked service"
+msgstr "UUID of the booked service"
+
+msgid "Name of the booked service"
+msgstr "Name of the booked service"
+
+msgid "UUID of the assigned staff member"
+msgstr "UUID of the assigned staff member"
+
+msgid "Name of the assigned staff member"
+msgstr "Name of the assigned staff member"
+
+msgid "Date of the appointment"
+msgstr "Date of the appointment"
+
+msgid "Start time of the appointment"
+msgstr "Start time of the appointment"
+
+msgid "Duration of the appointment in minutes"
+msgstr "Duration of the appointment in minutes"
+
+msgid "Customer notes or special requests"
+msgstr "Customer notes or special requests"
+
+msgid "When the booking was confirmed"
+msgstr "When the booking was confirmed"
+
+msgid "When the booking was cancelled"
+msgstr "When the booking was cancelled"
+
+msgid "Reason for cancellation"
+msgstr "Reason for cancellation"
+
+msgid "Online Bookings"
+msgstr "Online Bookings"
+
+#: views.py
+msgid "Only pending bookings can be confirmed."
+msgstr "Only pending bookings can be confirmed."
+
+msgid "Booking %(ref)s confirmed successfully."
+msgstr "Booking %(ref)s confirmed successfully."
+
+msgid "This booking cannot be cancelled."
+msgstr "This booking cannot be cancelled."
+
+msgid "Booking %(ref)s cancelled."
+msgstr "Booking %(ref)s cancelled."
+
+msgid "Only confirmed bookings can be marked as completed."
+msgstr "Only confirmed bookings can be marked as completed."
+
+msgid "Booking %(ref)s completed."
+msgstr "Booking %(ref)s completed."
+
+msgid "Only confirmed bookings can be marked as no-show."
+msgstr "Only confirmed bookings can be marked as no-show."
+
+msgid "Booking %(ref)s marked as no-show."
+msgstr "Booking %(ref)s marked as no-show."
+
+msgid "Booking %(ref)s deleted."
+msgstr "Booking %(ref)s deleted."
+
+msgid "%(count)d bookings confirmed."
+msgstr "%(count)d bookings confirmed."
+
+msgid "%(count)d bookings cancelled."
+msgstr "%(count)d bookings cancelled."
+
+msgid "%(count)d bookings deleted."
+msgstr "%(count)d bookings deleted."
+
+msgid "Booking page settings saved successfully."
+msgstr "Booking page settings saved successfully."
+
+msgid "Please correct the errors below."
+msgstr "Please correct the errors below."
+
+#: templates - dashboard
+msgid "Booking Page"
+msgstr "Booking Page"
+
+msgid "Enabled"
+msgstr "Enabled"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Total Bookings"
+msgstr "Total Bookings"
+
+msgid "Booking Page Status"
+msgstr "Booking Page Status"
+
+msgid "Enable Booking Page"
+msgstr "Enable Booking Page"
+
+msgid "Allow customers to book appointments online"
+msgstr "Allow customers to book appointments online"
+
+msgid "Booking Page URL"
+msgstr "Booking Page URL"
+
+msgid "Coming soon"
+msgstr "Coming soon"
+
+msgid "Copy"
+msgstr "Copy"
+
+msgid "The public booking page URL will be available once the feature is fully deployed."
+msgstr "The public booking page URL will be available once the feature is fully deployed."
+
+msgid "Page Customization"
+msgstr "Page Customization"
+
+msgid "Page Title"
+msgstr "Page Title"
+
+msgid "Welcome Message"
+msgstr "Welcome Message"
+
+msgid "Primary Color"
+msgstr "Primary Color"
+
+msgid "Logo URL"
+msgstr "Logo URL"
+
+msgid "Booking Rules"
+msgstr "Booking Rules"
+
+msgid "Minimum Advance (hours)"
+msgstr "Minimum Advance (hours)"
+
+msgid "How far in advance customers must book"
+msgstr "How far in advance customers must book"
+
+msgid "Maximum Advance (days)"
+msgstr "Maximum Advance (days)"
+
+msgid "How far ahead customers can book"
+msgstr "How far ahead customers can book"
+
+msgid "Slot Duration (minutes)"
+msgstr "Slot Duration (minutes)"
+
+msgid "Default appointment time slot length"
+msgstr "Default appointment time slot length"
+
+msgid "Buffer Time (minutes)"
+msgstr "Buffer Time (minutes)"
+
+msgid "Gap between consecutive appointments"
+msgstr "Gap between consecutive appointments"
+
+msgid "Form Fields & Options"
+msgstr "Form Fields & Options"
+
+msgid "Require Phone Number"
+msgstr "Require Phone Number"
+
+msgid "Phone field is mandatory in the booking form"
+msgstr "Phone field is mandatory in the booking form"
+
+msgid "Require Email"
+msgstr "Require Email"
+
+msgid "Email field is mandatory in the booking form"
+msgstr "Email field is mandatory in the booking form"
+
+msgid "Allow Staff Selection"
+msgstr "Allow Staff Selection"
+
+msgid "Let customers choose a preferred staff member"
+msgstr "Let customers choose a preferred staff member"
+
+msgid "Allow Notes"
+msgstr "Allow Notes"
+
+msgid "Let customers add notes or special requests"
+msgstr "Let customers add notes or special requests"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Confirmation Message"
+msgstr "Confirmation Message"
+
+msgid "Shown to customers after they submit a booking"
+msgstr "Shown to customers after they submit a booking"
+
+msgid "Cancellation Policy"
+msgstr "Cancellation Policy"
+
+msgid "Displayed to customers on the booking page"
+msgstr "Displayed to customers on the booking page"
+
+msgid "Save Settings"
+msgstr "Save Settings"
+
+msgid "Booking Page is Live"
+msgstr "Booking Page is Live"
+
+msgid "Customers can book appointments online"
+msgstr "Customers can book appointments online"
+
+msgid "Booking Page is Disabled"
+msgstr "Booking Page is Disabled"
+
+msgid "Enable it in Settings to start receiving bookings"
+msgstr "Enable it in Settings to start receiving bookings"
+
+msgid "awaiting confirmation"
+msgstr "awaiting confirmation"
+
+msgid "Confirmed Today"
+msgstr "Confirmed Today"
+
+msgid "appointments"
+msgstr "appointments"
+
+msgid "This Week"
+msgstr "This Week"
+
+msgid "total bookings"
+msgstr "total bookings"
+
+msgid "No-Show Rate"
+msgstr "No-Show Rate"
+
+msgid "total"
+msgstr "total"
+
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+msgid "View All Bookings"
+msgstr "View All Bookings"
+
+msgid "Browse and manage all online bookings"
+msgstr "Browse and manage all online bookings"
+
+msgid "Review Pending Bookings"
+msgstr "Review Pending Bookings"
+
+msgid "Confirm or reject pending appointment requests"
+msgstr "Confirm or reject pending appointment requests"
+
+msgid "Configure Booking Page"
+msgstr "Configure Booking Page"
+
+msgid "Customize your public booking page settings"
+msgstr "Customize your public booking page settings"
+
+msgid "Upcoming Bookings"
+msgstr "Upcoming Bookings"
+
+msgid "Next 7 days"
+msgstr "Next 7 days"
+
+msgid "No upcoming bookings in the next 7 days."
+msgstr "No upcoming bookings in the next 7 days."
+
+msgid "Manage online bookings from customers. Enable the booking page in Settings to allow customers to book appointments directly from your website. Pending bookings need manual confirmation."
+msgstr "Manage online bookings from customers. Enable the booking page in Settings to allow customers to book appointments directly from your website. Pending bookings need manual confirmation."
+
+#: templates - bookings list
+msgid "Reference"
+msgstr "Reference"
+
+msgid "Customer"
+msgstr "Customer"
+
+msgid "Service"
+msgstr "Service"
+
+msgid "Staff"
+msgstr "Staff"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Confirm"
+msgstr "Confirm"
