@@ -15,45 +15,40 @@
                         <span class="checkbox-mark"></span>
                     </label>
                 </th>
-                <th class="datatable-th datatable-th-sortable{% if sort_field == 'reference' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                <th class="cursor-pointer datatable-th datatable-th-sortable{% if sort_field == 'reference' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
                     hx-get="{% url 'online_booking:bookings' %}?sort=reference&dir={% if sort_field == 'reference' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
                     hx-target="#datatable-body"
-                    hx-include="#bookings-datatable"
-                    style="cursor: pointer;">
+                    hx-include="#bookings-datatable">
                     {% trans "Reference" %}
                     <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
                 </th>
-                <th class="datatable-th datatable-th-sortable{% if sort_field == 'customer' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                <th class="cursor-pointer datatable-th datatable-th-sortable{% if sort_field == 'customer' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
                     hx-get="{% url 'online_booking:bookings' %}?sort=customer&dir={% if sort_field == 'customer' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
                     hx-target="#datatable-body"
-                    hx-include="#bookings-datatable"
-                    style="cursor: pointer;">
+                    hx-include="#bookings-datatable">
                     {% trans "Customer" %}
                     <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
                 </th>
-                <th class="datatable-th datatable-th-sortable{% if sort_field == 'service' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                <th class="cursor-pointer datatable-th datatable-th-sortable{% if sort_field == 'service' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
                     hx-get="{% url 'online_booking:bookings' %}?sort=service&dir={% if sort_field == 'service' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
                     hx-target="#datatable-body"
-                    hx-include="#bookings-datatable"
-                    style="cursor: pointer;">
+                    hx-include="#bookings-datatable">
                     {% trans "Service" %}
                     <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
                 </th>
                 <th class="datatable-th" data-col="staff">{% trans "Staff" %}</th>
-                <th class="datatable-th datatable-th-sortable{% if sort_field == 'date' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                <th class="cursor-pointer datatable-th datatable-th-sortable{% if sort_field == 'date' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
                     hx-get="{% url 'online_booking:bookings' %}?sort=date&dir={% if sort_field == 'date' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
                     hx-target="#datatable-body"
-                    hx-include="#bookings-datatable"
-                    style="cursor: pointer;">
+                    hx-include="#bookings-datatable">
                     {% trans "Date" %}
                     <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
                 </th>
                 <th class="datatable-th">{% trans "Time" %}</th>
-                <th class="datatable-th datatable-th-center datatable-th-sortable{% if sort_field == 'status' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
+                <th class="cursor-pointer datatable-th datatable-th-center datatable-th-sortable{% if sort_field == 'status' %} datatable-th-sorted{% if sort_dir == 'desc' %} datatable-th-sorted-desc{% endif %}{% endif %}"
                     hx-get="{% url 'online_booking:bookings' %}?sort=status&dir={% if sort_field == 'status' and sort_dir == 'asc' %}desc{% else %}asc{% endif %}"
                     hx-target="#datatable-body"
-                    hx-include="#bookings-datatable"
-                    style="cursor: pointer;">
+                    hx-include="#bookings-datatable">
                     {% trans "Status" %}
                     <span class="datatable-sort-icon">{% icon "chevron-up-outline" %}</span>
                 </th>
