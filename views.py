@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
-from apps.accounts.decorators import login_required
+from apps.accounts.decorators import login_required, permission_required
 from apps.core.htmx import htmx_view
 from apps.modules_runtime.navigation import with_module_nav
 
@@ -325,6 +325,7 @@ def booking_bulk_action(request):
 # ============================================================================
 
 @login_required
+@permission_required('online_booking.manage_settings')
 @with_module_nav('online_booking', 'settings')
 @htmx_view('online_booking/pages/settings.html', 'online_booking/partials/settings_content.html')
 def settings_view(request):
