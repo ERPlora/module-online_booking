@@ -9,7 +9,7 @@ from datetime import date, timedelta
 
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render as django_render
 from django.views.decorators.http import require_POST
 from django.contrib import messages
