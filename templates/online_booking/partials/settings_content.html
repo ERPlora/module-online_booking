@@ -7,7 +7,11 @@
             <div class="card-body p-6">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 {% if settings.is_enabled %}bg-success/10{% else %}bg-base-200/50{% endif %} rounded-xl flex items-center justify-center">
-                        {% icon "globe-outline" css_class="text-2xl {% if settings.is_enabled %}text-success{% else %}text-base-content/40{% endif %}" %}
+                        {% if settings.is_enabled %}
+                        {% icon "globe-outline" css_class="text-2xl text-success" %}
+                        {% else %}
+                        {% icon "globe-outline" css_class="text-2xl text-base-content/40" %}
+                        {% endif %}
                     </div>
                     <div>
                         <div class="text-sm text-base-content/60">{% trans "Booking Page" %}</div>
