@@ -37,7 +37,7 @@ BOOKING_SORT_FIELDS = {
     'created': 'created_at',
 }
 
-PER_PAGE_CHOICES = [10, 25, 50, 100]
+PER_PAGE_CHOICES = [12, 24, 48, 96, 0]
 
 
 def _hub_id(request):
@@ -49,7 +49,7 @@ def _render_bookings_list(request, hub_id, per_page=10):
     bookings = OnlineBooking.objects.filter(
         hub_id=hub_id, is_deleted=False,
     ).order_by('-booking_date', '-booking_time')
-    paginator = Paginator(bookings, per_page)
+    paginator = Paginator(bookings, per_page if per_page > 0 else max(bookings.count(), 1))
     page_obj = paginator.get_page(1)
     return django_render(request, 'online_booking/partials/bookings_list.html', {
         'bookings': page_obj,
@@ -134,9 +134,9 @@ def bookings_list(request):
     status_filter = request.GET.get('status', '')
     date_from = request.GET.get('date_from', '')
     date_to = request.GET.get('date_to', '')
-    per_page = int(request.GET.get('per_page', 10))
+    per_page = int(request.GET.get('per_page', 12))
     if per_page not in PER_PAGE_CHOICES:
-        per_page = 10
+        per_page = 12
 
     bookings = OnlineBooking.objects.filter(hub_id=hub, is_deleted=False)
 
@@ -168,7 +168,7 @@ def bookings_list(request):
     bookings = bookings.order_by(order_by)
 
     # Pagination
-    paginator = Paginator(bookings, per_page)
+    paginator = Paginator(bookings, per_page if per_page > 0 else max(bookings.count(), 1))
     page_obj = paginator.get_page(request.GET.get('page', 1))
 
     context = {
